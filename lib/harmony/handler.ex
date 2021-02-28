@@ -27,7 +27,7 @@ defmodule Harmony.Handler do
   end
 
   def route(%{method: "GET", path: "/servers", response_body: ""} = conversation) do
-    %{method: conversation.method, path: conversation.path, response_body: "/Flutter\n /Discord\n"}
+    %{conversation | response_body: "LearnFlutter, LearnElixir, LearnPhoenixFramework"}
   end
 
   def route(%{method: "GET", response_body: ""} = conversation) do
