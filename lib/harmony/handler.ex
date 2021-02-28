@@ -8,7 +8,7 @@ defmodule Harmony.Handler do
     |> log
     |> route
     |> track
-    |> emojify
+#    |> emojify
     |> format_response
   end
 
@@ -32,7 +32,7 @@ defmodule Harmony.Handler do
   def rewrite_path(conversation), do: conversation
 
   def rewrite_path_captures(conversation, %{"slug" => slug, "id" => id}) do
-    %{ conversation | path: "/#{slug}/#{id}"}
+    %{conversation | path: "/#{slug}/#{id}"}
   end
 
   def rewrite_path_captures(conversation, nil), do: conversation
@@ -46,6 +46,13 @@ defmodule Harmony.Handler do
       |> Enum.at(0) # alternatively List.first(list)
       |> String.split(" ")
     %{method: method, path: path, response_body: "", status: nil}
+  end
+
+  def route(%{method: "GET", path: "/about", response_body: ""} = conversation) do
+    Path.expand("../../web/pages", __DIR__)
+    |> Path.join("about.html")
+    |> File.read
+    |> handle_file(conversation)
   end
 
   def route(%{method: "GET", path: "/servers", response_body: ""} = conversation) do
@@ -67,6 +74,18 @@ defmodule Harmony.Handler do
 
   def route(%{path: path} = conversation) do
     %{conversation | status: 404, response_body: "Page not found."}
+  end
+
+  def handle_file({:ok, file_content}, conversation) do
+    %{conversation | status: 200, response_body: file_content}
+  end
+
+  def handle_file({:error, :enoent}, conversation) do
+    %{conversation | status: 404, response_body: "Page not found."}
+  end
+
+  def handle_file({:error, reason}, conversation) do
+    %{conversation | status: 500, response_body: "Error on reading file. (#{reason})"}
   end
 
   def format_response(conversation) do

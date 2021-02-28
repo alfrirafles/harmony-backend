@@ -1,7 +1,7 @@
 defmodule HandlerTest do
   use ExUnit.Case
 
-  alias Harmony.Handler
+  import Harmony.Handler
 
   test "Handling requests to /servers path" do
     request = """
@@ -15,10 +15,10 @@ defmodule HandlerTest do
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: 75
+    Content-Length: 67
 
-    👍Available Servers:
-    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
+    Available Servers:
+    LearnFlutter, LearnElixir, LearnPhoenixFramework
     """
     assert Harmony.Handler.handle(request) == response
   end
@@ -76,7 +76,6 @@ defmodule HandlerTest do
   end
 
   defp prepare_response_content(response_content, body) when is_map(response_content) do
-    body = "👍" <> body <> "👍"
     response_content = %{response_content | body: body, length: byte_size(body)}
     """
     HTTP/1.1 200 OK
@@ -97,17 +96,18 @@ defmodule HandlerTest do
     """
 
     body = """
-    👍Available Servers:
-    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
+    Available Servers:
+    LearnFlutter, LearnElixir, LearnPhoenixFramework
     """
+
+    body = String.slice(body, 0, String.length(body) - 1)
 
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: #{byte_size(body) - 1}
+    Content-Length: #{byte_size(body)}
 
-    👍Available Servers:
-    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
+    #{body}
     """
 
     assert Harmony.Handler.handle(request) == response
@@ -144,7 +144,7 @@ defmodule HandlerTest do
 
     """
 
-    body = "👍Welcome to Learn Flutter Server!👍"
+    body = "Welcome to Learn Flutter Server!"
 
     response = """
     HTTP/1.1 200 OK
@@ -155,5 +155,29 @@ defmodule HandlerTest do
     """
 
     assert Harmony.Handler.handle(request) == response
+  end
+
+  test "Request to open file about.html" do
+    request = """
+    GET /about HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+
+    """
+
+    {:ok, page_content} = Path.expand("../web/pages", __DIR__)
+                   |> Path.join("about.html")
+                   |> File.read
+
+    response = """
+    HTTP/1.1 200 OK
+    Content-Type: text/html
+    Content-Length: #{byte_size(page_content)}
+
+    #{page_content}
+    """
+
+    assert handle(request) == response
   end
 end
