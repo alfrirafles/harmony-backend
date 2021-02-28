@@ -167,8 +167,8 @@ defmodule HandlerTest do
     """
 
     {:ok, page_content} = Path.expand("../web/pages", __DIR__)
-                   |> Path.join("about.html")
-                   |> File.read
+                          |> Path.join("about.html")
+                          |> File.read
 
     response = """
     HTTP/1.1 200 OK
@@ -176,6 +176,30 @@ defmodule HandlerTest do
     Content-Length: #{byte_size(page_content)}
 
     #{page_content}
+    """
+
+    assert handle(request) == response
+  end
+
+  test "Handlings request to create a new harmony server" do
+    request = """
+    GET /servers/new HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+
+    """
+
+    {:ok, response_body} = Path.expand("../web/pages", __DIR__)
+                           |> Path.join("register.html")
+                           |> File.read
+
+    response = """
+    HTTP/1.1 200 OK
+    Content-Type: text/html
+    Content-Length: #{byte_size(response_body)}
+
+    #{response_body}
     """
 
     assert handle(request) == response
