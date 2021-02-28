@@ -15,10 +15,10 @@ defmodule HandlerTest do
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: 67
+    Content-Length: 75
 
-    Available Servers:
-    LearnFlutter, LearnElixir, LearnPhoenixFramework
+    👍Available Servers:
+    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
     """
     assert Harmony.Handler.handle(request) == response
   end
@@ -76,7 +76,8 @@ defmodule HandlerTest do
   end
 
   defp prepare_response_content(response_content, body) when is_map(response_content) do
-    response_content = %{response_content | body: body, length: String.length(body)}
+    body = "👍" <> body <> "👍"
+    response_content = %{response_content | body: body, length: byte_size(body)}
     """
     HTTP/1.1 200 OK
     Content-Type: text/html
@@ -95,13 +96,18 @@ defmodule HandlerTest do
 
     """
 
+    body = """
+    👍Available Servers:
+    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
+    """
+
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: 67
+    Content-Length: #{byte_size(body) - 1}
 
-    Available Servers:
-    LearnFlutter, LearnElixir, LearnPhoenixFramework
+    👍Available Servers:
+    LearnFlutter, LearnElixir, LearnPhoenixFramework👍
     """
 
     assert Harmony.Handler.handle(request) == response
@@ -121,7 +127,7 @@ defmodule HandlerTest do
     response = """
     HTTP/1.1 404 Not Found
     Content-Type: text/html
-    Content-Length: #{String.length(body)}
+    Content-Length: #{byte_size(body)}
 
     #{body}
     """
@@ -138,12 +144,12 @@ defmodule HandlerTest do
 
     """
 
-    body = "Welcome to Learn Flutter Server!"
+    body = "👍Welcome to Learn Flutter Server!👍"
 
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: #{String.length(body)}
+    Content-Length: #{byte_size(body)}
 
     #{body}
     """

@@ -6,6 +6,7 @@ defmodule Harmony.Handler do
     |> log
     |> route
     |> track
+    |> emojify
     |> format_response
   end
 
@@ -69,6 +70,12 @@ defmodule Harmony.Handler do
     #{conversation.response_body}
     """
   end
+
+  defp emojify(%{status: 200, response_body: body} = conversation) do
+    %{conversation | response_body: "👍" <> body <> "👍"}
+  end
+
+  defp emojify(conversation), do: conversation
 
   defp status_reason(code) do
     %{
