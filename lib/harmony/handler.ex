@@ -40,7 +40,7 @@ defmodule Harmony.Handler do
     expected_response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: #{String.length(conversation.response_body)}
+    Content-Length: #{byte_size(conversation.response_body)}
 
     #{conversation.response_body}
     """
