@@ -43,8 +43,8 @@ defmodule Harmony.Handler do
 
   end
 
-  def route(%{method: "GET", response_body: ""} = conversation) do
-    IO.puts "path not found!"
+  def route(%{method: "GET", path: _, response_body: ""} = conversation) do
+    %{conversation | status: 404, response_body: "Page not found."}
   end
 
   def format_response(conversation) do
