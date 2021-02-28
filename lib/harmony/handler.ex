@@ -2,10 +2,25 @@ defmodule Harmony.Handler do
   def handle(request) do
     request
     |> parse
+    |> rewrite_path
     |> log
     |> route
+    |> track
     |> format_response
   end
+
+  def track(%{status: 404, path: path} = conversation) do
+    IO.puts "Warning: User trying to access #{path}, where page not exists for such path."
+    conversation
+  end
+
+  def track(conversation), do: conversation
+
+  def rewrite_path(%{path: "/home"} = conversation) do
+    %{conversation | path: "/servers"}
+  end
+
+  def rewrite_path(conversation), do: conversation
 
   def log(conv), do: IO.inspect conv
 
@@ -46,7 +61,7 @@ defmodule Harmony.Handler do
     %{conversation | status: 403, response_body: "Insufficient user privileges to delete the server."}
   end
 
-  def route(%{method: "GET", path: _, response_body: ""} = conversation) do
+  def route(%{path: path} = conversation) do
     %{conversation | status: 404, response_body: "Page not found."}
   end
 
