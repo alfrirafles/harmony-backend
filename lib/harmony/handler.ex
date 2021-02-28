@@ -40,7 +40,10 @@ defmodule Harmony.Handler do
       "3" -> %{conversation | status: 200, response_body: "Welcome to Learn Phoenix Framework Server!"}
       _ -> %{conversation | status: 404, response_body: "Server not found!"}
     end
+  end
 
+  def route(%{method: "DELETE", path: "/servers/" <> id, response_body: ""} = conversation) do
+    %{conversation | status: 403, response_body: "Insufficient user privileges to delete the server."}
   end
 
   def route(%{method: "GET", path: _, response_body: ""} = conversation) do
