@@ -30,7 +30,7 @@ defmodule Harmony.Handler do
   end
 
   def route(%{method: "GET", path: "/servers", response_body: ""} = conversation) do
-    %{conversation | status: 200, response_body: "LearnFlutter, LearnElixir, LearnPhoenixFramework"}
+    %{conversation | status: 200, response_body: "Available Servers:\nLearnFlutter, LearnElixir, LearnPhoenixFramework"}
   end
 
   def route(%{method: "GET", path: "/servers/" <> id, response_body: ""} = conversation) do
