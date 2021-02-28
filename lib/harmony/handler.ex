@@ -1,4 +1,6 @@
 defmodule Harmony.Handler do
+  require Logger
+
   def handle(request) do
     request
     |> parse
@@ -11,7 +13,7 @@ defmodule Harmony.Handler do
   end
 
   def track(%{status: 404, path: path} = conversation) do
-    IO.puts "Warning: User trying to access #{path}, where page not exists for such path."
+    Logger.warn "Warning: User trying to access #{path}, where page not exists for such path."
     conversation
   end
 
