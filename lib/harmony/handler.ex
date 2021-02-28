@@ -17,15 +17,23 @@ defmodule Harmony.Handler do
 
   def track(conversation), do: conversation
 
-  def rewrite_path(%{path: "/servers?id=" <> id} = conversation) do
-    %{conversation | path: "/servers/#{id}"}
-  end
-
   def rewrite_path(%{path: "/home"} = conversation) do
     %{conversation | path: "/servers"}
   end
 
+  def rewrite_path(%{path: path} = conv) do
+    regex = ~r{\/(?<slug>\w+)\?id=(?<id>\d+)}
+    captures = Regex.named_captures(regex, path)
+    rewrite_path_captures(conv, captures)
+  end
+
   def rewrite_path(conversation), do: conversation
+
+  def rewrite_path_captures(conversation, %{"slug" => slug, "id" => id}) do
+    %{ conversation | path: "/#{slug}/#{id}"}
+  end
+
+  def rewrite_path_captures(conversation, nil), do: conversation
 
   def log(conv), do: IO.inspect conv
 
