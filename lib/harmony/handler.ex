@@ -4,7 +4,6 @@ defmodule Harmony.Handler do
   Handler for HTTP requests.
   """
 
-
   require Logger
 
   @pages_path Path.expand("../../web/pages", __DIR__)
@@ -23,7 +22,7 @@ defmodule Harmony.Handler do
   end
 
   @doc """
-  Tracks HTTP requests that returns 404 for debugging purposes.
+  Tracks HTTP requests that returns 404 for debugging purposes.\n
   Other requests with other status than 404, will have no warning.
   """
   def track(%{status: 404, path: path} = conversation) do
@@ -34,8 +33,8 @@ defmodule Harmony.Handler do
   def track(conversation), do: conversation
 
   @doc """
-  Rewrite the path of the requests to the available route in the server.
-  /home -> /servers
+  Rewrite the path of the requests to the available route in the server.\n
+  /home -> /servers\n
   /slug?id= -> /slug/id
 
   """
@@ -75,11 +74,11 @@ defmodule Harmony.Handler do
   end
 
   @doc """
-  Handles routing for specific path in the request. Routes available:
-  /servers/new - return the register.html file content
-  /info/<page_name> - return <page_name>.html file content
-  /servers - returns the list of available servers.
-  /servers/id - returns specific server welcome page message.
+  Handles routing for specific path in the request. Routes available:\n
+  /servers/new - return the register.html file content\n
+  /info/<page_name> - return <page_name>.html file content\n
+  /servers - returns the list of available servers.\n
+  /servers/id - returns specific server welcome page message.\n
 
   In any case the request contain path to unavailable page, returns 404.
   """
@@ -119,8 +118,8 @@ defmodule Harmony.Handler do
   end
 
   @doc """
-  Update the map to contain the content of the requested page file.
-  In case the page not found, returns "page not found" as the response body.
+  Update the map to contain the content of the requested page file.\n
+  In case the page not found, returns "page not found" as the response body.\n
   In case any other problems exists, returns an error message with reason for debugging purposes.
   """
   def handle_file({:ok, file_content}, conversation) do
