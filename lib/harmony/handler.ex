@@ -8,7 +8,6 @@ defmodule Harmony.Handler do
     |> log
     |> route
     |> track
-#    |> emojify
     |> format_response
   end
 
@@ -46,6 +45,13 @@ defmodule Harmony.Handler do
       |> Enum.at(0) # alternatively List.first(list)
       |> String.split(" ")
     %{method: method, path: path, response_body: "", status: nil}
+  end
+
+  def route(%{method: "GET", path: "/servers/new", response_body: ""} = conversation) do
+    Path.expand("../../web/pages", __DIR__)
+    |> Path.join("register.html")
+    |> File.read
+    |> handle_file(conversation)
   end
 
   def route(%{method: "GET", path: "/about", response_body: ""} = conversation) do
