@@ -54,9 +54,9 @@ defmodule Harmony.Handler do
     |> handle_file(conversation)
   end
 
-  def route(%{method: "GET", path: "/about", response_body: ""} = conversation) do
+  def route(%{method: "GET", path: "/info/" <> page, response_body: ""} = conversation) do
     Path.expand("../../web/pages", __DIR__)
-    |> Path.join("about.html")
+    |> Path.join(page <> ".html")
     |> File.read
     |> handle_file(conversation)
   end

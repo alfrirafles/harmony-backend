@@ -159,7 +159,7 @@ defmodule HandlerTest do
 
   test "Request to open file about.html" do
     request = """
-    GET /about HTTP/1.1
+    GET /info/about HTTP/1.1
     Host: example.com
     User-Agent: ExampleBrowser/1.0
     Accept: */*
