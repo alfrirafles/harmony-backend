@@ -128,4 +128,26 @@ defmodule HandlerTest do
 
     assert Harmony.Handler.handle(request) == response
   end
+
+  test "Handling requests with ?= as its parameters" do
+    request = """
+    GET /servers?id=1 HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+
+    """
+
+    body = "Welcome to Learn Flutter Server!"
+
+    response = """
+    HTTP/1.1 200 OK
+    Content-Type: text/html
+    Content-Length: #{String.length(body)}
+
+    #{body}
+    """
+
+    assert Harmony.Handler.handle(request) == response
+  end
 end

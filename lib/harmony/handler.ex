@@ -16,6 +16,10 @@ defmodule Harmony.Handler do
 
   def track(conversation), do: conversation
 
+  def rewrite_path(%{path: "/servers?id=" <> id} = conversation) do
+    %{conversation | path: "/servers/#{id}"}
+  end
+
   def rewrite_path(%{path: "/home"} = conversation) do
     %{conversation | path: "/servers"}
   end
@@ -25,22 +29,11 @@ defmodule Harmony.Handler do
   def log(conv), do: IO.inspect conv
 
   def parse(request) do
-    # Input Request:
-    #    request = """
-    #    GET /servers HTTP/1.1
-    #    Host: example.com
-    #    User-Agent: ExampleBrowser/1.0
-    #    Accept: */*
-    #
-    #    """
-
-    # Transformations:
     [method, path, _http_version] =
       request
       |> String.split("\n", trim: true)
       |> Enum.at(0) # alternatively List.first(list)
       |> String.split(" ")
-    # Output:
     %{method: method, path: path, response_body: "", status: nil}
   end
 
