@@ -1,5 +1,7 @@
 defmodule Harmony.Plugins do
 
+  alias Harmony.Conversation
+
   @moduledoc """
   Module for plugins feature for the server request's handler.
   """
@@ -15,7 +17,7 @@ defmodule Harmony.Plugins do
     conversation
   end
 
-  def track(conversation), do: conversation
+  def track(%Conversation{} = conversation), do: conversation
 
   @doc """
   Rewrite the path of the requests to the available route in the server.\n
@@ -33,7 +35,7 @@ defmodule Harmony.Plugins do
     rewrite_path_captures(conv, captures)
   end
 
-  def rewrite_path(conversation), do: conversation
+  def rewrite_path(%Conversation{} = conversation), do: conversation
 
   defp rewrite_path_captures(conversation, %{"slug" => slug, "id" => id}) do
     %{conversation | path: "/#{slug}/#{id}"}
@@ -44,5 +46,5 @@ defmodule Harmony.Plugins do
   @doc """
   Logs the parsed request for debugging purposes.
   """
-  def log(conv), do: IO.inspect conv
+  def log(%Conversation{} = conversation), do: IO.inspect conversation
 end
