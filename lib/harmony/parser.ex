@@ -33,5 +33,5 @@ defmodule Harmony.Parser do
                      |> URI.decode_query
   end
 
-  defp parse_params(""), do: nil
+  defp parse_params(""), do: %{}
 end
