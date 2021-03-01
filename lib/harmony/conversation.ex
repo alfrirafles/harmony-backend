@@ -6,7 +6,12 @@ defmodule Harmony.Conversation do
 
   alias Harmony.Conversation
 
-  defstruct [method: "", path: "", status: nil, response_body: ""]
+  defstruct [
+    method: "",
+    path: "",
+    status: nil,
+    request_params: %{},
+    response_body: ""]
 
   @doc """
   Return the string required by the response for a request that explains about the status.

@@ -34,6 +34,14 @@ defmodule Harmony.Handler do
 
   In any case the request contain path to unavailable page, returns 404.
   """
+  def route(%Conversation{method: "POST", path: "/servers", request_params: params} = conversation) do
+    %{
+      conversation |
+      status: 201,
+      response_body: "Created a new server called #{params["name"]}\nDescription: #{params["description"]}"
+    }
+  end
+
   def route(%Conversation{method: "GET", path: "/servers/new", response_body: ""} = conversation) do
     @pages_path
     |> Path.join("register.html")
