@@ -6,6 +6,8 @@ defmodule Harmony.Handler do
 
   require Logger
 
+  import Harmony.Plugins, only [track: 1, rewrite_path: 1, log: 1]
+
   @pages_path Path.expand("../../web/pages", __DIR__)
 
   @doc """
@@ -20,46 +22,6 @@ defmodule Harmony.Handler do
     |> track
     |> format_response
   end
-
-  @doc """
-  Tracks HTTP requests that returns 404 for debugging purposes.\n
-  Other requests with other status than 404, will have no warning.
-  """
-  def track(%{status: 404, path: path} = conversation) do
-    Logger.warn "Warning: User trying to access #{path}, where page not exists for such path."
-    conversation
-  end
-
-  def track(conversation), do: conversation
-
-  @doc """
-  Rewrite the path of the requests to the available route in the server.\n
-  /home -> /servers\n
-  /slug?id= -> /slug/id
-
-  """
-  def rewrite_path(%{path: "/home"} = conversation) do
-    %{conversation | path: "/servers"}
-  end
-
-  def rewrite_path(%{path: path} = conv) do
-    regex = ~r{\/(?<slug>\w+)\?id=(?<id>\d+)}
-    captures = Regex.named_captures(regex, path)
-    rewrite_path_captures(conv, captures)
-  end
-
-  def rewrite_path(conversation), do: conversation
-
-  defp rewrite_path_captures(conversation, %{"slug" => slug, "id" => id}) do
-    %{conversation | path: "/#{slug}/#{id}"}
-  end
-
-  defp rewrite_path_captures(conversation, nil), do: conversation
-
-  @doc """
-  Logs the parsed request for debugging purposes.
-  """
-  def log(conv), do: IO.inspect conv
 
   @doc """
   Parses the request into a map that can be used for routing.
