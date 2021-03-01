@@ -74,7 +74,7 @@ defmodule Harmony.Handler do
   """
   def format_response(%Conversation{} = conversation) do
     """
-    HTTP/1.1 #{conversation.status} #{status_reason(conversation.status)}
+    HTTP/1.1 #{Conversation.full_status(conversation)}
     Content-Type: text/html
     Content-Length: #{byte_size(conversation.response_body)}
 
@@ -87,16 +87,5 @@ defmodule Harmony.Handler do
   end
 
   defp emojify(%Conversation{} = conversation), do: conversation
-
-  defp status_reason(code) do
-    %{
-      200 => "OK",
-      201 => "Created",
-      401 => "Unauthorized",
-      403 => "Forbidden",
-      404 => "Not Found",
-      500 => "Internal Server Error"
-    }[code]
-  end
 end
 
