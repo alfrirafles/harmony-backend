@@ -2,7 +2,10 @@ defmodule HandlerTest do
   use ExUnit.Case
 
   import Harmony.Handler
+  import Harmony.Parser, only: [parse: 1]
+  alias Harmony.Conversation
 
+  @tag :pending
   test "Handling requests to /servers path" do
     request = """
     GET /servers HTTP/1.1
@@ -23,6 +26,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
+  @tag :pending
   test "Handling request to specific server path" do
     url_index = Integer.to_string(Enum.random(1..3))
     request = """
@@ -54,6 +58,7 @@ defmodule HandlerTest do
     end
   end
 
+  @tag :pending
   test "Handling request for deleting specific server" do
     request = """
     DELETE /servers/1 HTTP/1.1
@@ -86,6 +91,7 @@ defmodule HandlerTest do
     """
   end
 
+  @tag :pending
   test "Handling request to /home path" do
     request = """
     GET /home HTTP/1.1
@@ -113,6 +119,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
+  @tag :pending
   test "Handling for requests that have a rouge path" do
     request = """
     GET /test HTTP/1.1
@@ -135,6 +142,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
+  @tag :pending
   test "Handling requests with ?= as its parameters" do
     request = """
     GET /servers?id=1 HTTP/1.1
@@ -157,6 +165,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
+  @tag :pending
   test "Request to open file about.html" do
     request = """
     GET /info/about HTTP/1.1
@@ -181,7 +190,8 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-  test "Handlings request to create a new harmony server" do
+  @tag :pending
+  test "Handlings request to get the form to create a new harmony server" do
     request = """
     GET /servers/new HTTP/1.1
     Host: example.com
@@ -196,6 +206,32 @@ defmodule HandlerTest do
 
     response = """
     HTTP/1.1 200 OK
+    Content-Type: text/html
+    Content-Length: #{byte_size(response_body)}
+
+    #{response_body}
+    """
+
+    assert handle(request) == response
+  end
+
+  test "Handling post request to create a new server" do
+    request = """
+    POST /servers HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+    Content-Type: application/x-www-form-urlencoded
+    Content-Length: 21
+
+    name=LearnPostGresQL&description=Server+to+learn+PostGresQL
+    """
+
+    response_body = "Created a new server called LearnPostGresQL\n
+                      Description: Server to learn PostGresQL"
+
+    response = """
+    HTTP/1.1 201 Created
     Content-Type: text/html
     Content-Length: #{byte_size(response_body)}
 
