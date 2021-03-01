@@ -8,7 +8,7 @@ defmodule Harmony.Handler do
   import Harmony.Parser, only: [parse: 1]
   import Harmony.FileHandler, only: [handle_file: 2]
 
-  @pages_path Path.expand("../../web/pages", __DIR__)
+  @pages_path Path.expand("web/pages", File.cwd!)
 
   @doc """
   Transforms HTTP request into response
