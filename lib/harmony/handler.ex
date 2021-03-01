@@ -4,10 +4,8 @@ defmodule Harmony.Handler do
   Handler for HTTP requests.
   """
 
-  require Logger
-
-  import Harmony.Plugins, only [track: 1, rewrite_path: 1, log: 1]
-  import Harmony.Parser, only [parse: 1]
+  import Harmony.Plugins, only: [track: 1, rewrite_path: 1, log: 1]
+  import Harmony.Parser, only: [parse: 1]
 
   @pages_path Path.expand("../../web/pages", __DIR__)
 

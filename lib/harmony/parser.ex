@@ -1,4 +1,9 @@
 defmodule Harmony.Parser do
+
+  @moduledoc """
+  Parser module for http request
+  """
+
   @doc """
   Parses the request into a map that can be used for routing.
   """

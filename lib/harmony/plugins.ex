@@ -1,4 +1,11 @@
 defmodule Harmony.Plugins do
+
+  @moduledoc """
+  Module for plugins feature for the server request's handler.
+  """
+
+  require Logger
+
   @doc """
   Tracks HTTP requests that returns 404 for debugging purposes.\n
   Other requests with other status than 404, will have no warning.
