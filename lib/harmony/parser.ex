@@ -1,5 +1,7 @@
 defmodule Harmony.Parser do
 
+  alias Harmony.Conversation
+
   @moduledoc """
   Parser module for http request
   """
@@ -13,6 +15,6 @@ defmodule Harmony.Parser do
       |> String.split("\n", trim: true)
       |> Enum.at(0) # alternatively List.first(list)
       |> String.split(" ")
-    %{method: method, path: path, response_body: "", status: nil}
+    %Conversation{method: method, path: path, response_body: "", status: nil}
   end
 end
