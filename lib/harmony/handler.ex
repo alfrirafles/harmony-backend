@@ -7,6 +7,7 @@ defmodule Harmony.Handler do
   require Logger
 
   import Harmony.Plugins, only [track: 1, rewrite_path: 1, log: 1]
+  import Harmony.Parser, only [parse: 1]
 
   @pages_path Path.expand("../../web/pages", __DIR__)
 
@@ -21,18 +22,6 @@ defmodule Harmony.Handler do
     |> route
     |> track
     |> format_response
-  end
-
-  @doc """
-  Parses the request into a map that can be used for routing.
-  """
-  def parse(request) do
-    [method, path, _http_version] =
-      request
-      |> String.split("\n", trim: true)
-      |> Enum.at(0) # alternatively List.first(list)
-      |> String.split(" ")
-    %{method: method, path: path, response_body: "", status: nil}
   end
 
   @doc """
