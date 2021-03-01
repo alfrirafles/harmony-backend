@@ -2,8 +2,6 @@ defmodule HandlerTest do
   use ExUnit.Case
 
   import Harmony.Handler
-  import Harmony.Parser, only: [parse: 1]
-  alias Harmony.Conversation
 
 #  @tag :pending
   test "Handling requests to /servers path" do
