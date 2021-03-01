@@ -4,14 +4,14 @@ defmodule Harmony.Conversation do
   Module that provides type safety for request -> response conversation in the server.
   """
 
-  alias Harmony.Conversation
-
   defstruct [
     method: "",
     path: "",
     status: nil,
+    request_headers: %{},
     request_params: %{},
-    response_body: ""]
+    response_body: ""
+  ]
 
   @doc """
   Return the string required by the response for a request that explains about the status.
