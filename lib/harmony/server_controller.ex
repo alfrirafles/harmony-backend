@@ -7,7 +7,7 @@ defmodule Harmony.ServerController do
 
   def index(conversation) do
     server_list = Region.list_servers
-                   |> Enum.sort(&Server.order_by_name_asc/2)
+                  |> Enum.sort(&Server.order_by_name_asc/2)
 
     content =
       @templates_path
@@ -19,7 +19,10 @@ defmodule Harmony.ServerController do
 
   def show(conversation, %{"id" => id} = params) do
     server = Region.get_server(id)
-    %{conversation | status: 200, response_body: "<h1>#{server.name}</h1><br>#{server.description}"}
+    content = @templates_path
+              |> Path.join("show.eex")
+              |> EEx.eval_file(server: server)
+    %{conversation | status: 200, response_body: content}
   end
 
   def create(conversation, %{"name" => name, "description" => description} = server) do
