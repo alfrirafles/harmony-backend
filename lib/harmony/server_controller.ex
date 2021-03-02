@@ -2,18 +2,19 @@ defmodule Harmony.ServerController do
 
   alias Harmony.Region
   alias Harmony.Server
+  alias Harmony.ServerView
 
   @templates_path Path.expand("web/templates/servers", File.cwd!)
 
   def index(conversation) do
     server_list = Region.list_servers()
                   |> Enum.sort(&Server.order_by_name_asc/2)
-    render_page(conversation, "index.eex", [servers: server_list])
+    %{conversation | status: 200, response_body: ServerView.index(server_list)}
   end
 
   def show(conversation, %{"id" => id}) do
     server = Region.get_server(id)
-    render_page(conversation, "show.eex", [server: server])
+    %{conversation | status: 200, response_body: ServerView.show(server)}
   end
 
   def create(conversation, %{"name" => name, "description" => description}) do
@@ -29,10 +30,11 @@ defmodule Harmony.ServerController do
     %{conversation | status: 403, response_body: "Insufficient user privileges to delete the server: #{server.name}."}
   end
 
-  defp render_page(conversation, template_name, bindings \\ []) do
-    content = @templates_path
-              |> Path.join(template_name)
-              |> EEx.eval_file(bindings)
-    %{conversation | status: 200, response_body: content}
-  end
+  # deprecated function; reason: optimization
+  #  defp render_page(conversation, template_name, bindings \\ []) do
+  #    content = @templates_path
+  #              |> Path.join(template_name)
+  #              |> EEx.eval_file(bindings)
+  #    %{conversation | status: 200, response_body: content}
+end
 end
