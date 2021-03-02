@@ -78,17 +78,6 @@ defmodule HandlerTest do
 
   end
 
-  defp prepare_response_content(response_content, body) when is_map(response_content) do
-    response_content = %{response_content | body: body, length: byte_size(body)}
-    """
-    HTTP/1.1 200 OK
-    Content-Type: text/html
-    Content-Length: #{response_content.length}
-
-    #{response_content.body}
-    """
-  end
-
 #  @tag :pending
   test "Handling request to /home path" do
     request = """
@@ -237,5 +226,16 @@ defmodule HandlerTest do
     """
 
     assert handle(request) == response
+  end
+
+  defp prepare_response_content(response_content, body) when is_map(response_content) do
+    response_content = %{response_content | body: body, length: byte_size(body)}
+    """
+    HTTP/1.1 200 OK
+    Content-Type: text/html
+    Content-Length: #{response_content.length}
+
+    #{response_content.body}
+    """
   end
 end
