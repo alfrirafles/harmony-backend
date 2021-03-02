@@ -46,22 +46,22 @@ defmodule HandlerTest do
       "1" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "<h1>LearnFlutter</h1><br>Server to learn Flutter framework"
+                 "<h1>LearnFlutter</h1>\n<br>\n<h2>Server to learn Flutter framework</h2>"
                );
       "2" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "<h1>LearnElixir</h1><br>Server to learn Elixir programming language"
+                 "<h1>LearnElixir</h1>\n<br>\n<h2>Server to learn Elixir programming language</h2>"
                )
       "3" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "<h1>LearnPhoenix</h1><br>Server to learn Phoenix framework"
+                 "<h1>LearnPhoenix</h1>\n<br>\n<h2>Server to learn Phoenix framework</h2>"
                )
       "4" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                       response_content,
-                      "<h1>LearnPostgresQL</h1><br>Server to learn PostgresQL"
+                      "<h1>LearnPostgresQL</h1>\n<br>\n<h2>Server to learn PostgresQL</h2>"
                     )
     end
   end
@@ -154,7 +154,7 @@ defmodule HandlerTest do
 
     """
 
-    body = "<h1>LearnFlutter</h1><br>Server to learn Flutter framework"
+    body = "<h1>LearnFlutter</h1>\n<br>\n<h2>Server to learn Flutter framework</h2>"
 
     response = """
     HTTP/1.1 200 OK
