@@ -12,12 +12,8 @@ defmodule Harmony.ServerController do
   end
 
   def show(conversation, %{"id" => id} = params) do
-    case id do
-      "1" -> %{conversation | status: 200, response_body: "Welcome to Learn Flutter Server!"}
-      "2" -> %{conversation | status: 200, response_body: "Welcome to Learn Elixir Server!"}
-      "3" -> %{conversation | status: 200, response_body: "Welcome to Learn Phoenix Framework Server!"}
-      _ -> %{conversation | status: 404, response_body: "Server not found!"}
-    end
+    server = Region.get_server(id)
+    %{conversation | status: 200, response_body: "<h1>#{server.name}</h1><br>#{server.description}"}
   end
 
   def create(conversation, %{"name" => name, "description" => description} = server) do

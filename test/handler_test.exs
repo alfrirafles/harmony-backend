@@ -3,7 +3,7 @@ defmodule HandlerTest do
 
   import Harmony.Handler
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling requests to /servers path" do
     request = """
     GET /servers HTTP/1.1
@@ -29,7 +29,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling request to specific server path" do
     url_index = Integer.to_string(Enum.random(1..3))
     request = """
@@ -46,22 +46,27 @@ defmodule HandlerTest do
       "1" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "Welcome to Learn Flutter Server!"
+                 "<h1>LearnFlutter</h1><br>Server to learn Flutter framework"
                );
       "2" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "Welcome to Learn Elixir Server!"
+                 "<h1>LearnElixir</h1><br>Server to learn Elixir programming language"
                )
       "3" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
                  response_content,
-                 "Welcome to Learn Phoenix Framework Server!"
+                 "<h1>LearnPhoenix</h1><br>Server to learn Phoenix framework"
                )
+      "4" ->
+        assert Harmony.Handler.handle(request) == prepare_response_content(
+                      response_content,
+                      "<h1>LearnPostgresQL</h1><br>Server to learn PostgresQL"
+                    )
     end
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling request for deleting specific server" do
     request = """
     DELETE /servers/1 HTTP/1.1
@@ -83,7 +88,7 @@ defmodule HandlerTest do
 
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling request to /home path" do
     request = """
     GET /home HTTP/1.1
@@ -116,7 +121,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling for requests that have a rouge path" do
     request = """
     GET /test HTTP/1.1
@@ -139,7 +144,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling requests with ?= as its parameters" do
     request = """
     GET /servers?id=1 HTTP/1.1
@@ -149,7 +154,7 @@ defmodule HandlerTest do
 
     """
 
-    body = "Welcome to Learn Flutter Server!"
+    body = "<h1>LearnFlutter</h1><br>Server to learn Flutter framework"
 
     response = """
     HTTP/1.1 200 OK
@@ -162,7 +167,7 @@ defmodule HandlerTest do
     assert Harmony.Handler.handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Request to open file about.html" do
     request = """
     GET /info/about HTTP/1.1
@@ -187,7 +192,7 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handlings request to get the form to create a new harmony server" do
     request = """
     GET /servers/new HTTP/1.1
@@ -212,7 +217,7 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling post request to create a new server" do
     request = """
     POST /servers HTTP/1.1
