@@ -12,7 +12,8 @@ defmodule Harmony.Region do
   end
 
   def get_server(id) when is_integer(id) do
-    Enum.find(list_servers, fn server -> server.id == 1 end)
+    match_server_id = &(&1.id == id)
+    Enum.find(list_servers, match_server_id)
   end
 
   def get_server(id) when is_binary(id) do
