@@ -5,6 +5,7 @@ defmodule Harmony.Handler do
   """
 
   alias Harmony.Conversation
+  alias Harmony.ServerController
 
   import Harmony.Plugins, only: [track: 1, rewrite_path: 1, log: 1]
   import Harmony.Parser, only: [parse: 1]
@@ -34,12 +35,8 @@ defmodule Harmony.Handler do
 
   In any case the request contain path to unavailable page, returns 404.
   """
-  def route(%Conversation{method: "POST", path: "/servers", request_params: params} = conversation) do
-    %{
-      conversation |
-      status: 201,
-      response_body: "Created a new server called #{params["name"]}\nDescription: #{params["description"]}"
-    }
+  def route(%Conversation{method: "GET", path: "/servers", response_body: ""} = conversation) do
+    ServerController.index(conversation)
   end
 
   def route(%Conversation{method: "GET", path: "/servers/new", response_body: ""} = conversation) do
@@ -49,28 +46,24 @@ defmodule Harmony.Handler do
     |> handle_file(conversation)
   end
 
+  def route(%Conversation{method: "GET", path: "/servers/" <> id, response_body: ""} = conversation) do
+    params = Map.put(conversation.request_params, "id", id)
+    ServerController.show(conversation, params)
+  end
+
+  def route(%Conversation{method: "POST", path: "/servers", request_params: params} = conversation) do
+    ServerController.create(conversation, params)
+  end
+
+  def route(%Conversation{method: "DELETE", path: "/servers/" <> id, response_body: ""} = conversation) do
+    ServerController.delete(conversation, id)
+  end
+
   def route(%Conversation{method: "GET", path: "/info/" <> page, response_body: ""} = conversation) do
     @pages_path
     |> Path.join(page <> ".html")
     |> File.read
     |> handle_file(conversation)
-  end
-
-  def route(%Conversation{method: "GET", path: "/servers", response_body: ""} = conversation) do
-    %{conversation | status: 200, response_body: "Available Servers:\nLearnFlutter, LearnElixir, LearnPhoenixFramework"}
-  end
-
-  def route(%Conversation{method: "GET", path: "/servers/" <> id, response_body: ""} = conversation) do
-    case id do
-      "1" -> %{conversation | status: 200, response_body: "Welcome to Learn Flutter Server!"}
-      "2" -> %{conversation | status: 200, response_body: "Welcome to Learn Elixir Server!"}
-      "3" -> %{conversation | status: 200, response_body: "Welcome to Learn Phoenix Framework Server!"}
-      _ -> %{conversation | status: 404, response_body: "Server not found!"}
-    end
-  end
-
-  def route(%Conversation{method: "DELETE", path: "/servers/" <> id, response_body: ""} = conversation) do
-    %{conversation | status: 403, response_body: "Insufficient user privileges to delete the server."}
   end
 
   def route(%Conversation{path: path} = conversation) do
