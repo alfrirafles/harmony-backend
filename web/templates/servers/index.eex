@@ -1,0 +1,7 @@
+<h1>Available Servers:</h1>
+<br>
+<ul>
+    <%= for server <- servers do%>
+<li><%= server.name %> - <%= server.description %></li>
+    <% end %>
+</ul>

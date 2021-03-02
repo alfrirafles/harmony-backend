@@ -3,12 +3,18 @@ defmodule Harmony.ServerController do
   alias Harmony.Region
   alias Harmony.Server
 
+  @templates_path Path.expand("web/templates/servers", File.cwd!)
+
   def index(conversation) do
-    list_items = Region.list_servers
-    |> Enum.filter(&Server.asia_region/1)
-    |> Enum.sort(&Server.order_by_name_asc/2)
-    |> Enum.map(&server_list_html/1)
-    %{conversation | status: 200, response_body: "<h1>Available Servers:</h1>\n<br>\n<ul>\n#{list_items}</ul>"}
+    server_list = Region.list_servers
+                   |> Enum.sort(&Server.order_by_name_asc/2)
+
+    content =
+      @templates_path
+      |> Path.join("index.eex")
+      |> EEx.eval_file(servers: server_list)
+
+    %{conversation | status: 200, response_body: content}
   end
 
   def show(conversation, %{"id" => id} = params) do
