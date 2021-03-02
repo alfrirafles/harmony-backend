@@ -16,15 +16,15 @@ defmodule HandlerTest do
     response = """
     HTTP/1.1 200 OK
     Content-Type: text/html
-    Content-Length: 232
+    Content-Length: 305
 
     <h1>Available Servers:</h1>
     <br>
     <ul>
-      <li>LearnElixir - Server to learn Elixir programming language</li>
-      <li>LearnFlutter - Server to learn Flutter framework</li>
-      <li>LearnPhoenix - Server to learn Phoenix framework</li>
-    </ul>
+        \n<li>LearnElixir - Server to learn Elixir programming language</li>
+        \n<li>LearnFlutter - Server to learn Flutter framework</li>
+        \n<li>LearnPhoenix - Server to learn Phoenix framework</li>
+        \n<li>LearnPostgresQL - Server to learn PostgresQL</li>\n    \n</ul>
     """
     assert Harmony.Handler.handle(request) == response
   end
@@ -102,10 +102,10 @@ defmodule HandlerTest do
     <h1>Available Servers:</h1>
     <br>
     <ul>
-      <li>LearnElixir - Server to learn Elixir programming language</li>
-      <li>LearnFlutter - Server to learn Flutter framework</li>
-      <li>LearnPhoenix - Server to learn Phoenix framework</li>
-    </ul>
+        \n<li>LearnElixir - Server to learn Elixir programming language</li>
+        \n<li>LearnFlutter - Server to learn Flutter framework</li>
+        \n<li>LearnPhoenix - Server to learn Phoenix framework</li>
+        \n<li>LearnPostgresQL - Server to learn PostgresQL</li>\n    \n</ul>
     """
 
     body = String.slice(body, 0, String.length(body) - 1)
