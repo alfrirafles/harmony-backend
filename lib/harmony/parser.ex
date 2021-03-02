@@ -21,7 +21,7 @@ defmodule Harmony.Parser do
       method: method,
       path: path,
       request_headers: request_headers
-                       |> parse_headers(%{}),
+                       |> parse_headers,
       request_params: List.to_string(request_body)
                       |> parse_params,
       response_body: "",
@@ -29,14 +29,13 @@ defmodule Harmony.Parser do
     }
   end
 
-  defp parse_headers([line | headers_remain], header_params) do
-    [key, value] = line
-                   |> String.split(": ")
-    updated_header_params = Enum.into(header_params, %{key => value})
-    parse_headers(headers_remain, updated_header_params)
+  defp parse_headers(header_list) do
+    Enum.reduce(header_list, %{}, fn header, acc ->
+        [key, value] = String.split(header, ": ")
+        Map.put(acc, key, value)
+      end
+    )
   end
-
-  defp parse_headers([], header_params), do: header_params
 
   defp parse_params(request_body) when request_body != "" do
     request_params = request_body
