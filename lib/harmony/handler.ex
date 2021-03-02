@@ -66,7 +66,7 @@ defmodule Harmony.Handler do
     |> handle_file(conversation)
   end
 
-  def route(%Conversation{path: path} = conversation) do
+  def route(%Conversation{path: _path} = conversation) do
     %{conversation | status: 404, response_body: "Page not found."}
   end
 

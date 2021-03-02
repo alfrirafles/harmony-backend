@@ -76,12 +76,14 @@ defmodule HandlerTest do
 
     """
 
+    body = "Insufficient user privileges to delete the server: LearnFlutter."
+
     response = """
     HTTP/1.1 403 Forbidden
     Content-Type: text/html
-    Content-Length: 50
+    Content-Length: #{byte_size(body)}
 
-    Insufficient user privileges to delete the server.
+    #{body}
     """
 
     assert Harmony.Handler.handle(request) == response

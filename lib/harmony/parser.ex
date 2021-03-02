@@ -38,9 +38,9 @@ defmodule Harmony.Parser do
   end
 
   defp parse_params(request_body) when request_body != "" do
-    request_params = request_body
-                     |> String.slice(0, String.length(request_body) - 1)
-                     |> URI.decode_query
+    request_body
+    |> String.slice(0, String.length(request_body) - 1)
+    |> URI.decode_query
   end
 
   defp parse_params(""), do: %{}
