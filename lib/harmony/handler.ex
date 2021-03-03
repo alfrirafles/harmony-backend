@@ -66,6 +66,10 @@ defmodule Harmony.Handler do
     |> handle_file(conversation)
   end
 
+  def route(%Conversation{method: "GET", path: "/api/servers", response_body: ""} = conversation) do
+    Harmony.Api.ServerController.index(conversation)
+  end
+
   def route(%Conversation{path: _path} = conversation) do
     %{conversation | status: 404, response_body: "Page not found."}
   end
@@ -76,7 +80,7 @@ defmodule Harmony.Handler do
   def format_response(%Conversation{} = conversation) do
     """
     HTTP/1.1 #{Conversation.full_status(conversation)}
-    Content-Type: text/html
+    Content-Type: #{conversation.content_type}
     Content-Length: #{byte_size(conversation.response_body)}
 
     #{conversation.response_body}
