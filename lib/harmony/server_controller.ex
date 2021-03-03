@@ -4,28 +4,36 @@ defmodule Harmony.ServerController do
   alias Harmony.Server
   alias Harmony.ServerView
 
+  @content_type "text/html"
+
   def index(conversation) do
     server_list = Region.list_servers()
                   |> Enum.sort(&Server.order_by_name_asc/2)
-    %{conversation | status: 200, response_body: ServerView.index(server_list)}
+    %{conversation | status: 200, content_type: @content_type, response_body: ServerView.index(server_list)}
   end
 
   def show(conversation, %{"id" => id}) do
     server = Region.get_server(id)
-    %{conversation | status: 200, response_body: ServerView.show(server)}
+    %{conversation | status: 200, content_type: @content_type, response_body: ServerView.show(server)}
   end
 
   def create(conversation, %{"name" => name, "description" => description}) do
     %{
       conversation |
       status: 201,
+      content_type: @content_type,
       response_body: "Created a new server called #{name}\nDescription: #{description}"
     }
   end
 
   def delete(conversation, server_id) do
     server = Region.get_server(server_id)
-    %{conversation | status: 403, response_body: "Insufficient user privileges to delete the server: #{server.name}."}
+    %{
+      conversation |
+      status: 403,
+      content_type: @content_type,
+      response_body: "Insufficient user privileges to delete the server: #{server.name}."
+    }
   end
 
   # deprecated function; reason: optimization
