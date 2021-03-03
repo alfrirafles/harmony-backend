@@ -60,9 +60,9 @@ defmodule HandlerTest do
                )
       "4" ->
         assert Harmony.Handler.handle(request) == prepare_response_content(
-                      response_content,
-                      "<h1>LearnPostgresQL</h1>\n<br>\n<h2>Server to learn PostgresQL</h2>"
-                    )
+                 response_content,
+                 "<h1>LearnPostgresQL</h1>\n<br>\n<h2>Server to learn PostgresQL</h2>"
+               )
     end
   end
 
@@ -243,6 +243,34 @@ defmodule HandlerTest do
     """
 
     assert handle(request) == response
+  end
+
+  test "Handling api request when user access /api/servers" do
+    request = """
+    GET /api/servers HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+
+    """
+
+    body = """
+    [{\"region\":\"asia\",\"name\":\"LearnFlutter\",\"id\":1,\"description\":\"Server to learn Flutter framework\"},{\"region\":\"asia\",\"name\":\"LearnElixir\",\"id\":2,\"description\":\"Server to learn Elixir programming language\"},{\"region\":\"asia\",\"name\":\"LearnPhoenix\",\"id\":3,\"description\":\"Server to learn Phoenix framework\"},{\"region\":\"us-east\",\"name\":\"LearnPostgresQL\",\"id\":4,\"description\":\"Server to learn PostgresQL\"}]
+    """ |> remove_trailing_whitespace
+
+    response = """
+    HTTP/1.1 200 OK
+    Content-Type: application/json
+    Content-Length: #{byte_size(body)}
+
+    #{body}
+    """
+
+    assert handle(request) == response
+  end
+
+  defp remove_trailing_whitespace(text) do
+    String.slice(text, 0, String.length(text) - 1)
   end
 
   defp prepare_response_content(response_content, body) when is_map(response_content) do
