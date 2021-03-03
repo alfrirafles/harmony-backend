@@ -1,7 +1,7 @@
 defmodule HandlerTest do
-  use ExUnit.Case
+  use ExUnit.Case, async: true
 
-  import Harmony.Handler
+  import Harmony.Handler, only: [handle: 1]
 
   #  @tag :pending
   test "Handling requests to /servers path" do

@@ -4,8 +4,6 @@ defmodule Harmony.ServerController do
   alias Harmony.Server
   alias Harmony.ServerView
 
-  @templates_path Path.expand("web/templates/servers", File.cwd!)
-
   def index(conversation) do
     server_list = Region.list_servers()
                   |> Enum.sort(&Server.order_by_name_asc/2)
@@ -36,5 +34,5 @@ defmodule Harmony.ServerController do
   #              |> Path.join(template_name)
   #              |> EEx.eval_file(bindings)
   #    %{conversation | status: 200, response_body: content}
-end
+  # end
 end

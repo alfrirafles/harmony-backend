@@ -13,7 +13,9 @@ defmodule Harmony.Plugins do
   Other requests with other status than 404, will have no warning.
   """
   def track(%{status: 404, path: path} = conversation) do
-    Logger.warn "Warning: User trying to access #{path}, where page not exists for such path."
+    if Mix.env != :test do
+      Logger.warn "Warning: User trying to access #{path}, where page not exists for such path."
+    end
     conversation
   end
 
@@ -46,5 +48,10 @@ defmodule Harmony.Plugins do
   @doc """
   Logs the parsed request for debugging purposes.
   """
-  def log(%Conversation{} = conversation), do: IO.inspect conversation
+  def log(%Conversation{} = conversation) do
+    if Mix.env != :test do
+      IO.inspect conversation
+    end
+    conversation
+  end
 end
