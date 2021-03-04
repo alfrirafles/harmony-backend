@@ -10,6 +10,10 @@ defmodule Harmony.Conversation do
     status: nil,
     request_headers: %{},
     request_params: %{},
+    response_headers: %{
+      "Content-Type" => "",
+      "Content-Length" => 0
+    },
     response_body: ""
   ]
 
@@ -18,6 +22,18 @@ defmodule Harmony.Conversation do
   """
   def full_status(conversation) do
     "#{conversation.status} #{status_reason(conversation.status)}"
+  end
+
+  def content_type(conversation) do
+    "#{conversation.response_headers["Content-Type"]}"
+  end
+
+  def content_length(conversation) do
+    "#{conversation.response_headers["Content-Length"]}"
+  end
+
+  def format(body, status, content_type, conversation) do
+    %{conversation | status: status, response_headers: %{"Content-Type" => content_type, "Content-Length" => byte_size(body)}, response_body: body}
   end
 
   defp status_reason(code) do
