@@ -83,11 +83,19 @@ defmodule Harmony.Handler do
   def format_response(%Conversation{} = conversation) do
     """
     HTTP/1.1 #{Conversation.full_status(conversation)}
-    Content-Type: #{Conversation.content_type(conversation)}
-    Content-Length: #{Conversation.content_length(conversation)}
+    #{format_response_headers(conversation)}
 
     #{conversation.response_body}
     """
+  end
+
+  def format_response_headers(conversation) do
+    for {key, value} <- conversation.response_headers do
+      "#{key}: #{value}"
+    end
+    |> Enum.sort
+    |> Enum.reverse
+    |> Enum.join("\n")
   end
 
   defp emojify(%Conversation{status: 200, response_body: body} = conversation) do
