@@ -17,13 +17,14 @@ defmodule Harmony.Parser do
     [method, path, _http_version] =
       request_method
       |> String.split(" ", trim: true)
+    headers = request_headers
+              |> parse_headers
     %Conversation{
       method: method,
       path: path,
-      request_headers: request_headers
-                       |> parse_headers,
+      request_headers: headers,
       request_params: List.to_string(request_body)
-                      |> parse_params,
+                      |> parse_params(headers["Content-Type"]),
       response_body: "",
       status: nil
     }
@@ -37,11 +38,16 @@ defmodule Harmony.Parser do
     )
   end
 
-  defp parse_params(request_body) when request_body != "" do
+  defp parse_params(request_body, "application/x-www-form-urlencoded") when request_body != "" do
     request_body
     |> String.slice(0, String.length(request_body) - 1)
     |> URI.decode_query
   end
 
-  defp parse_params(""), do: %{}
+  defp parse_params(request_body, "application/json") when request_body != "" do
+    request_body
+    |> Poison.Parser.parse!(%{})
+  end
+
+  defp parse_params("", nil), do: %{}
 end

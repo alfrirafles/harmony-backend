@@ -10,4 +10,9 @@ defmodule Harmony.Api.ServerController do
            |> Poison.encode!
            |> Conversation.format(status: 200, content_type: @content_type, conversation: conversation)
   end
+
+  def create(conversation) do
+    body = "Server LearnDevOps/Server to learn DevOps created!"
+           |> Conversation.format(status: 201, content_type: "text/html", conversation: conversation)
+  end
 end

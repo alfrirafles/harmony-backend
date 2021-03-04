@@ -72,6 +72,10 @@ defmodule Harmony.Handler do
     Harmony.Api.ServerController.index(conversation)
   end
 
+  def route(%Conversation{method: "POST", path: "/api/servers", response_body: ""} = conversation) do
+    Harmony.Api.ServerController.create(conversation)
+  end
+
   def route(%Conversation{path: _path} = conversation) do
     body = "Page not found."
            |> Conversation.format(status: 404, content_type: "text/html", conversation: conversation)
