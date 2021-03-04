@@ -25,4 +25,6 @@ harmony-*.tar
 # Temporary files, for example, from tests.
 /tmp/
 
+# IDE specific files to avoid repo polution.
 .idea
+*.iml
