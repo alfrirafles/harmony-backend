@@ -30,5 +30,8 @@
     <orderEntry type="library" name="jsone" level="project" />
     <orderEntry type="library" name="jiffy" level="project" />
     <orderEntry type="library" name="json" level="project" />
+    <orderEntry type="library" name="faker" level="project" />
+    <orderEntry type="library" name="earmark" level="project" />
+    <orderEntry type="library" name="credo" level="project" />
   </component>
 </module>

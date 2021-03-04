@@ -21,7 +21,8 @@ defmodule Harmony.MixProject do
   # Run "mix help deps" to learn about dependencies.
   defp deps do
     [
-      {:poison, "~> 4.0"}
+      {:poison, "~> 4.0"},
+      {:faker, "~> 0.16.0"}
     ]
   end
 end
