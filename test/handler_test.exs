@@ -124,7 +124,7 @@ defmodule HandlerTest do
   end
 
   #  @tag :pending
-  test "Handling for requests that have a rouge path" do
+  test "Handling rogue requests" do
     request = """
     GET /test HTTP/1.1
     Host: example.com
@@ -170,7 +170,7 @@ defmodule HandlerTest do
   end
 
   #  @tag :pending
-  test "Request to open file about.html" do
+  test "Handling request to open file about.html" do
     request = """
     GET /info/about HTTP/1.1
     Host: example.com
@@ -195,7 +195,7 @@ defmodule HandlerTest do
   end
 
   #  @tag :pending
-  test "Handlings request to get the form to create a new harmony server" do
+  test "Handling request to get the form to create a new harmony server" do
     request = """
     GET /servers/new HTTP/1.1
     Host: example.com
