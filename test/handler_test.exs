@@ -255,12 +255,38 @@ defmodule HandlerTest do
     """
 
     body = """
-    [{\"region\":\"asia\",\"name\":\"LearnFlutter\",\"id\":1,\"description\":\"Server to learn Flutter framework\"},{\"region\":\"asia\",\"name\":\"LearnElixir\",\"id\":2,\"description\":\"Server to learn Elixir programming language\"},{\"region\":\"asia\",\"name\":\"LearnPhoenix\",\"id\":3,\"description\":\"Server to learn Phoenix framework\"},{\"region\":\"us-east\",\"name\":\"LearnPostgresQL\",\"id\":4,\"description\":\"Server to learn PostgresQL\"}]
-    """ |> remove_trailing_whitespace
+           [{\"region\":\"asia\",\"name\":\"LearnFlutter\",\"id\":1,\"description\":\"Server to learn Flutter framework\"},{\"region\":\"asia\",\"name\":\"LearnElixir\",\"id\":2,\"description\":\"Server to learn Elixir programming language\"},{\"region\":\"asia\",\"name\":\"LearnPhoenix\",\"id\":3,\"description\":\"Server to learn Phoenix framework\"},{\"region\":\"us-east\",\"name\":\"LearnPostgresQL\",\"id\":4,\"description\":\"Server to learn PostgresQL\"}]
+           """
+           |> remove_trailing_whitespace
 
     response = """
     HTTP/1.1 200 OK
     Content-Type: application/json
+    Content-Length: #{byte_size(body)}
+
+    #{body}
+    """
+
+    assert handle(request) == response
+  end
+
+  test "Handling api post request to /api/servers endpoint" do
+    request = """
+    POST /api/servers HTTP/1.1
+    Host: example.com
+    User-Agent: ExampleBrowser/1.0
+    Accept: */*
+    Content-Type: application/json
+    Content-Length: 21
+
+    {"name": "LearnDevOps", "description": "Server to learn DevOps"}
+    """
+
+    body = "Server LearnDevOps/Server to learn DevOps created!"
+
+    response = """
+    HTTP/1.1 201 Created
+    Content-Type: text/html
     Content-Length: #{byte_size(body)}
 
     #{body}
