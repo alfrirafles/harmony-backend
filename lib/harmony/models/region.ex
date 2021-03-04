@@ -2,13 +2,21 @@ defmodule Harmony.Region do
 
   alias Harmony.Server
 
+  @source_path Path.expand("db", File.cwd!)
+
   def list_servers do
-    [
-      %Server{id: 1, name: "LearnFlutter", description: "Server to learn Flutter framework", region: "asia"},
-      %Server{id: 2, name: "LearnElixir", description: "Server to learn Elixir programming language", region: "asia"},
-      %Server{id: 3, name: "LearnPhoenix", description: "Server to learn Phoenix framework", region: "asia"},
-      %Server{id: 4, name: "LearnPostgresQL", description: "Server to learn PostgresQL", region: "us-east"}
-    ]
+    {:ok, content} = @source_path
+                     |> Path.join("servers.json")
+                     |> File.read
+    %{"servers" => server_list} = content
+                                  |> Poison.decode!
+    server_list
+    Enum.reduce(server_list, [],
+      fn servers, acc ->
+        %{id: id, name: name, description: description, region: region} =
+          for {key, value} <- servers, into: %{}, do: {String.to_atom(key), value}
+        [%Server{id: id, name: name, description: description, region: region} | acc]
+      end)
   end
 
   def get_server(id) when is_integer(id) do
