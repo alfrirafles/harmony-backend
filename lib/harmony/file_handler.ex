@@ -9,15 +9,15 @@ defmodule Harmony.FileHandler do
   In case any other problems exists, returns an error message with reason for debugging purposes.
   """
   def handle_file({:ok, file_content}, conversation) do
-    %{conversation | status: 200, response_body: file_content}
+    {200, "text/html", file_content}
   end
 
   def handle_file({:error, :enoent}, conversation) do
-    %{conversation | status: 404, response_body: "Page not found."}
+    {404, "text/html", "Page not found."}
   end
 
   def handle_file({:error, reason}, conversation) do
-    %{conversation | status: 500, response_body: "Error on reading file. (#{reason})"}
+    {500, "text/html", "Error on reading file. (#{reason})"}
   end
 
 end

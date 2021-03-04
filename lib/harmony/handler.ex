@@ -40,10 +40,11 @@ defmodule Harmony.Handler do
   end
 
   def route(%Conversation{method: "GET", path: "/servers/new", response_body: ""} = conversation) do
-    @pages_path
-    |> Path.join("register.html")
-    |> File.read
-    |> handle_file(conversation)
+    {status, content_type, body} = @pages_path
+                                   |> Path.join("register.html")
+                                   |> File.read
+                                   |> handle_file(conversation)
+    Conversation.format(body, [status: status, content_type: content_type, conversation: conversation])
   end
 
   def route(%Conversation{method: "GET", path: "/servers/" <> id, response_body: ""} = conversation) do
@@ -60,10 +61,11 @@ defmodule Harmony.Handler do
   end
 
   def route(%Conversation{method: "GET", path: "/info/" <> page, response_body: ""} = conversation) do
-    @pages_path
-    |> Path.join(page <> ".html")
-    |> File.read
-    |> handle_file(conversation)
+    {status, content_type, body} = @pages_path
+                                   |> Path.join(page <> ".html")
+                                   |> File.read
+                                   |> handle_file(conversation)
+    Conversation.format(body, [status: status, content_type: content_type, conversation: conversation])
   end
 
   def route(%Conversation{method: "GET", path: "/api/servers", response_body: ""} = conversation) do
@@ -71,7 +73,8 @@ defmodule Harmony.Handler do
   end
 
   def route(%Conversation{path: _path} = conversation) do
-    %{conversation | status: 404, response_body: "Page not found."}
+    body = "Page not found."
+           |> Conversation.format(status: 404, content_type: "text/html", conversation: conversation)
   end
 
   @doc """
@@ -80,8 +83,8 @@ defmodule Harmony.Handler do
   def format_response(%Conversation{} = conversation) do
     """
     HTTP/1.1 #{Conversation.full_status(conversation)}
-    Content-Type: #{conversation.content_type}
-    Content-Length: #{byte_size(conversation.response_body)}
+    Content-Type: #{Conversation.content_type(conversation)}
+    Content-Length: #{Conversation.content_length(conversation)}
 
     #{conversation.response_body}
     """

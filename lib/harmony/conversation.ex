@@ -32,8 +32,16 @@ defmodule Harmony.Conversation do
     "#{conversation.response_headers["Content-Length"]}"
   end
 
-  def format(body, status, content_type, conversation) do
-    %{conversation | status: status, response_headers: %{"Content-Type" => content_type, "Content-Length" => byte_size(body)}, response_body: body}
+  def format(body, [status: status, content_type: content_type, conversation: conversation]) do
+    %{
+      conversation |
+      status: status,
+      response_headers: %{
+        "Content-Type" => content_type,
+        "Content-Length" => byte_size(body)
+      },
+      response_body: body
+    }
   end
 
   defp status_reason(code) do
