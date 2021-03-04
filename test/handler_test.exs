@@ -126,7 +126,7 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling rogue requests" do
     request = """
-    GET /test HTTP/1.1
+    GET /#{Faker.Lorem.word} HTTP/1.1
     Host: example.com
     User-Agent: ExampleBrowser/1.0
     Accept: */*
