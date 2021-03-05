@@ -1,30 +1,33 @@
 defmodule Harmony.HttpServer do
-  #  def server do
-  #    {:ok, l_socket} = :gen_tcp.listen(4000, [:binary, packet: 0, active: false])
-  #    {:ok, socket} = :gen_tcp.accept(l_socket)
-  #    {:ok, binary} = :gen_tcp.recv(socket, 0)
-  #    :ok = :gen_tcp.close(socket)
-  #    binary
-  #  end
+  @moduledoc """
+  Http Server module that uses :gen_tcp Erlang module
+  """
 
+  @doc """
+  Starts the server on the given `port` of localhost
+  """
   def start(port) when is_integer(port) and port > 1023 do
-    IO.puts "🎧 Listening for connection request on port #{port}..."
     {:ok, listen_socket} = :gen_tcp.listen(port, [:binary, packet: :raw, active: false, reuseaddr: true])
+    IO.puts "🎧 Listening for connection request on port #{port}..."
     accept_loop(listen_socket)
   end
 
+  @doc """
+  Accept client connections on the `listen_socket`
+  """
   def accept_loop(listen_socket) do
     IO.puts "⌛️ Waiting to accept connection...\n"
-
     {:ok, client_socket} = :gen_tcp.accept(listen_socket)
-
     IO.puts "👌 Connection accepted!\n"
-
     serve(client_socket)
-
     accept_loop(listen_socket)
   end
 
+  @doc """
+  Process the received request from the socket and
+  sends back a response to to the client over the
+  same socket.
+  """
   def serve(client_socket) do
     client_socket
     |> read_request
@@ -32,6 +35,9 @@ defmodule Harmony.HttpServer do
     |> write_response(client_socket)
   end
 
+  @doc """
+  Receieves a request on the client socket.
+  """
   def read_request(client_socket) do
     {:ok, request} = :gen_tcp.recv(client_socket, 0)
 
@@ -41,8 +47,11 @@ defmodule Harmony.HttpServer do
     request
   end
 
+  @doc """
+  Generates HTTP response based on the request.
+  """
   def generate_response(_request) do
-    body = Faker.Lorem.sentences(3)
+    body = Faker.Lorem.sentence(3)
     """
     HTTP/1.1 200 OK\r
     Content-Type: text/plain\r
@@ -52,6 +61,9 @@ defmodule Harmony.HttpServer do
     """
   end
 
+  @doc """
+  Send the response back to the client via the socket.
+  """
   def write_response(response, client_socket) do
     :ok = :gen_tcp.send(client_socket, response)
 
