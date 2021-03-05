@@ -36,7 +36,7 @@ defmodule Harmony.HttpServer do
   end
 
   @doc """
-  Receieves a request on the client socket.
+  Receive a request on the client socket.
   """
   def read_request(client_socket) do
     {:ok, request} = :gen_tcp.recv(client_socket, 0)
@@ -55,7 +55,7 @@ defmodule Harmony.HttpServer do
     """
     HTTP/1.1 200 OK\r
     Content-Type: text/plain\r
-    Conent-Length: #{byte_size(body)}\r
+    Content-Length: #{byte_size(body)}\r
     \r
     #{body}
     """
