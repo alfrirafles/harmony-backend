@@ -40,4 +40,15 @@ defmodule Harmony.HttpServer do
 
     request
   end
+
+  def generate_response(_request) do
+    body = Faker.Lorem.sentences(3)
+    """
+    HTTP/1.1 200 OK\r
+    Content-Type: text/plain\r
+    Conent-Length: #{byte_size(body)}\r
+    \r
+    #{body}
+    """
+  end
 end
