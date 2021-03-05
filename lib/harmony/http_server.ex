@@ -31,4 +31,13 @@ defmodule Harmony.HttpServer do
     |> generate_response
     |> write_response(client_socket)
   end
+
+  def read_request(client_socket) do
+    {:ok, request} = :gen_tcp.recv(client_socket, 0)
+
+    IO.puts "✅ Received request: \n"
+    IO.puts request
+
+    request
+  end
 end
