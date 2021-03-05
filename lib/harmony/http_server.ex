@@ -51,4 +51,12 @@ defmodule Harmony.HttpServer do
     #{body}
     """
   end
+
+  def write_response(response, client_socket) do
+    :ok = :gen_tcp.send(client_socket, response)
+
+    IO.puts "✉️ Sent response:\n"
+    IO.puts response
+    :ok = :gen_tcp.close(client_socket)
+  end
 end
