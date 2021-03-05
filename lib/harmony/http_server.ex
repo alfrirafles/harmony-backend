@@ -16,7 +16,7 @@ defmodule Harmony.HttpServer do
   def accept_loop(listen_socket) do
     IO.puts "⌛️ Waiting to accept connection...\n"
 
-    {:ok, client_socket} = :gen_tcp.accept(l_socket)
+    {:ok, client_socket} = :gen_tcp.accept(listen_socket)
 
     IO.puts "👌 Connection accepted!\n"
 
