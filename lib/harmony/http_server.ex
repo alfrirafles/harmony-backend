@@ -3,6 +3,8 @@ defmodule Harmony.HttpServer do
   Http Server module that uses :gen_tcp Erlang module
   """
 
+  import Harmony.Handler, only: [handle: 1]
+
   @doc """
   Starts the server on the given `port` of localhost
   """
@@ -19,7 +21,7 @@ defmodule Harmony.HttpServer do
     IO.puts "⌛️ Waiting to accept connection...\n"
     {:ok, client_socket} = :gen_tcp.accept(listen_socket)
     IO.puts "👌 Connection accepted!\n"
-    serve(client_socket)
+    spawn(fn -> serve(client_socket) end)
     accept_loop(listen_socket)
   end
 
@@ -29,9 +31,10 @@ defmodule Harmony.HttpServer do
   same socket.
   """
   def serve(client_socket) do
+    IO.puts "Processing request on #{inspect self()}"
     client_socket
     |> read_request
-    |> generate_response
+    |> handle
     |> write_response(client_socket)
   end
 
@@ -42,23 +45,7 @@ defmodule Harmony.HttpServer do
     {:ok, request} = :gen_tcp.recv(client_socket, 0)
 
     IO.puts "✅ Received request: \n"
-    IO.puts request
-
     request
-  end
-
-  @doc """
-  Generates HTTP response based on the request.
-  """
-  def generate_response(_request) do
-    body = Faker.Lorem.sentence(3)
-    """
-    HTTP/1.1 200 OK\r
-    Content-Type: text/plain\r
-    Content-Length: #{byte_size(body)}\r
-    \r
-    #{body}
-    """
   end
 
   @doc """
