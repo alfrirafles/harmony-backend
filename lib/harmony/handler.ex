@@ -39,6 +39,10 @@ defmodule Harmony.Handler do
     ServerController.index(conversation)
   end
 
+  def route(%Conversation{method: "GET", path: "/down/" <> time_out, response_body: ""} = conversation) do
+    ServerController.time_out(conversation)
+  end
+
   def route(%Conversation{method: "GET", path: "/servers/new", response_body: ""} = conversation) do
     {status, content_type, body} = @pages_path
                                    |> Path.join("register.html")
