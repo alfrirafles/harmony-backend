@@ -219,7 +219,7 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-#  @tag :pending
+  #  @tag :pending
   test "Handling post request to create a new server" do
     request = """
     POST /servers HTTP/1.1\r
@@ -245,14 +245,14 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-  @tag :pending
+  #  @tag :pending
   test "Handling api request when user access /api/servers" do
     request = """
-    GET /api/servers HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /api/servers HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     body = """
@@ -271,16 +271,16 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-  @tag :pending
+  #  @tag :pending
   test "Handling api post request to /api/servers endpoint" do
     request = """
-    POST /api/servers HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-    Content-Type: application/json
-    Content-Length: 21
-
+    POST /api/servers HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    Content-Type: application/json\r
+    Content-Length: 21\r
+    \r
     {"name": "LearnDevOps", "description": "Server to learn DevOps"}
     """
 
