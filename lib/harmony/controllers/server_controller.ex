@@ -30,6 +30,13 @@ defmodule Harmony.ServerController do
            |> Conversation.format(status: 403, content_type: @content_type, conversation: conversation)
   end
 
+  def time_out(conversation) do
+    %{path: "/down/" <> duration} = conversation
+    :timer.sleep(String.to_integer(duration))
+    body = "Server timed out for #{duration}"
+           |> Conversation.format(status: 200, content_type: @content_type, conversation: conversation)
+  end
+
   # deprecated function; reason: optimization
   #  defp render_page(conversation, template_name, bindings \\ []) do
   #    content = @templates_path
