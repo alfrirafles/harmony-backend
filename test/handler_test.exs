@@ -6,11 +6,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling requests to /servers path" do
     request = """
-    GET /servers HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /servers HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     response = """
@@ -33,11 +33,11 @@ defmodule HandlerTest do
   test "Handling request to specific server path" do
     url_index = Integer.to_string(Enum.random(1..3))
     request = """
-    GET /servers/#{url_index} HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /servers/#{url_index} HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     response_content = %{length: 0, body: ""}
@@ -69,11 +69,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling request for deleting specific server" do
     request = """
-    DELETE /servers/1 HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    DELETE /servers/1 HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     body = "Insufficient user privileges to delete the server: LearnFlutter."
@@ -93,11 +93,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling request to /home path" do
     request = """
-    GET /home HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /home HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     body = """
@@ -126,11 +126,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling rogue requests" do
     request = """
-    GET /#{Faker.Lorem.word} HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /#{Faker.Lorem.word} HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     body = "Page not found."
@@ -149,11 +149,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling requests with ?= as its parameters" do
     request = """
-    GET /servers?id=1 HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /servers?id=1 HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     body = "<h1>LearnFlutter</h1>\n<br>\n<h2>Server to learn Flutter framework</h2>"
@@ -172,11 +172,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling request to open file about.html" do
     request = """
-    GET /info/about HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /info/about HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     {:ok, page_content} = Path.expand("../web/pages", __DIR__)
@@ -197,11 +197,11 @@ defmodule HandlerTest do
   #  @tag :pending
   test "Handling request to get the form to create a new harmony server" do
     request = """
-    GET /servers/new HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-
+    GET /servers/new HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    \r
     """
 
     {:ok, response_body} = Path.expand("../web/pages", __DIR__)
@@ -219,16 +219,16 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
-  #  @tag :pending
+#  @tag :pending
   test "Handling post request to create a new server" do
     request = """
-    POST /servers HTTP/1.1
-    Host: example.com
-    User-Agent: ExampleBrowser/1.0
-    Accept: */*
-    Content-Type: application/x-www-form-urlencoded
-    Content-Length: 21
-
+    POST /servers HTTP/1.1\r
+    Host: example.com\r
+    User-Agent: ExampleBrowser/1.0\r
+    Accept: */*\r
+    Content-Type: application/x-www-form-urlencoded\r
+    Content-Length: 21\r
+    \r
     name=LearnPostGresQL&description=Server+to+learn+PostGresQL
     """
 
@@ -245,6 +245,7 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
+  @tag :pending
   test "Handling api request when user access /api/servers" do
     request = """
     GET /api/servers HTTP/1.1
@@ -270,6 +271,7 @@ defmodule HandlerTest do
     assert handle(request) == response
   end
 
+  @tag :pending
   test "Handling api post request to /api/servers endpoint" do
     request = """
     POST /api/servers HTTP/1.1

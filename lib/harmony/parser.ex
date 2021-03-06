@@ -10,10 +10,8 @@ defmodule Harmony.Parser do
   Parses the request into a map that can be used for routing.
   """
   def parse(request) do
-    [request_raw | request_body] = request
-                                   |> String.split("\n\n", trim: true)
-    [request_method | request_headers] = request_raw
-                                         |> String.split("\n", trim: true)
+    [request_method | request_headers] = request
+                                   |> String.split("\r\n", trim: true)
     [method, path, _http_version] =
       request_method
       |> String.split(" ", trim: true)
@@ -23,7 +21,7 @@ defmodule Harmony.Parser do
       method: method,
       path: path,
       request_headers: headers,
-      request_params: List.to_string(request_body)
+      request_params: List.to_string(request_headers)
                       |> parse_params(headers["Content-Type"]),
       response_body: "",
       status: nil
@@ -49,5 +47,5 @@ defmodule Harmony.Parser do
     |> Poison.Parser.parse!(%{})
   end
 
-  defp parse_params("", nil), do: %{}
+  defp parse_params(_request_body, nil), do: %{}
 end
