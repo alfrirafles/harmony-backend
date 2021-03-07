@@ -256,7 +256,7 @@ defmodule HandlerTest do
     """
 
     body = """
-           [{\"region\":\"asia\",\"name\":\"LearnFlutter\",\"id\":1,\"description\":\"Server to learn Flutter framework\"},{\"region\":\"asia\",\"name\":\"LearnElixir\",\"id\":2,\"description\":\"Server to learn Elixir programming language\"},{\"region\":\"asia\",\"name\":\"LearnPhoenix\",\"id\":3,\"description\":\"Server to learn Phoenix framework\"},{\"region\":\"us-east\",\"name\":\"LearnPostgresQL\",\"id\":4,\"description\":\"Server to learn PostgresQL\"}]
+           [{\"region\":\"asia\",\"name\":\"LearnFlutter\",\"join_link\":\"\",\"id\":1,\"description\":\"Server to learn Flutter framework\"},{\"region\":\"asia\",\"name\":\"LearnElixir\",\"join_link\":\"\",\"id\":2,\"description\":\"Server to learn Elixir programming language\"},{\"region\":\"asia\",\"name\":\"LearnPhoenix\",\"join_link\":\"\",\"id\":3,\"description\":\"Server to learn Phoenix framework\"},{\"region\":\"us-east\",\"name\":\"LearnPostgresQL\",\"join_link\":\"\",\"id\":4,\"description\":\"Server to learn PostgresQL\"}]
            """
            |> remove_trailing_whitespace
 
