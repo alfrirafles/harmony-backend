@@ -7,7 +7,7 @@ defmodule Harmony.Api.ServerController do
   @content_type "application/json"
 
   def index(conversation) do
-    body = Region.list_servers
+    body = Region.list_servers(source: "json")
            |> Enum.sort(&Server.order_by_id_asc/2)
            |> Poison.encode!
            |> Conversation.format(status: 200, content_type: @content_type, conversation: conversation)

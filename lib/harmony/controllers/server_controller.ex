@@ -8,7 +8,7 @@ defmodule Harmony.ServerController do
   @content_type "text/html"
 
   def index(conversation) do
-    body = Region.list_servers()
+    body = Region.list_servers(source: "file")
            |> Enum.sort(&Server.order_by_name_asc/2)
            |> ServerView.index
            |> Conversation.format(status: 200, content_type: @content_type, conversation: conversation)
