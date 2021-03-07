@@ -20,4 +20,21 @@ defmodule Harmony.FileHandler do
     {500, "text/html", "Error on reading file. (#{reason})"}
   end
 
+  def read_csv(source_path) do
+    {:ok, file_content} = source_path
+                          |> File.read
+    [header_line | data_lines] = file_content
+                                 |> String.split("\r\n")
+    headers = header_line
+              |> String.split(";")
+    Enum.reduce(data_lines, [], fn data, acc ->
+        combined_items = data
+                         |> String.split(";")
+                         |> Enum.zip(headers)
+                         |> Enum.map(fn {k, v} -> %{String.to_atom(v) => k} end)
+                         |> Enum.reduce(%{}, &Map.merge/2)
+        acc = [combined_items | acc]
+      end)
+  end
+
 end
