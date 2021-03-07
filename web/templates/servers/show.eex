@@ -15,10 +15,19 @@
     <div class="col-md-9">
         <h2 style="color: #ffffff; padding-top: 10px"><%= server.description %></h2>
         <div class="container" style="max-width: 90%; min-height: 80%; overflow: scroll">
-            <input class="form-control" type="text" placeholder="Readonly input here..." readonly style="margin-top: 4px; margin-bottom: 4px">
+            <input class="form-control" type="text" placeholder="Readonly input here..." readonly
+                   style="margin-top: 4px; margin-bottom: 4px">
         </div>
-        <form style="margin: 0 10px 20px 10px">
-            <input type="text" class="form-control" id="message" placeholder="Enter a message...">
+
+        <form action="/servers/<%= server.id%>" method="POST" style="margin: 0 10px 20px 10px">
+            <div class="row">
+                <div class="col-md-10">
+                    <input type="text" class="form-control" id="message" placeholder="Enter a message...">
+                </div>
+                <div class="col-md-2">
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </div>
+            </div>
         </form>
     </div>
 </div>
