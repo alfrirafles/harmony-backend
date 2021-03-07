@@ -1,7 +1,39 @@
-<h1>Available Servers:</h1>
-<br>
-<ul>
-    <%= for server <- servers do%>
-<li><%= server.name %> - <%= server.description %></li>
-    <% end %>
+<!DOCTYPE html>
+<html lang="en" style="height: 100%">
+<head>
+    <meta charset="UTF-8">
+    <title>Discord Clone Elixir/OTP</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css"
+          integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+</head>
+<body style="background-color: #292B30; height: 100%">
+<ul class="nav" style="background-color: #292B30">
+    <li class="nav-item">
+        <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
+           style="color: #ffffff; font-weight: bold; font-size: 28px;">Discord Clone Elixir/OTP</a>
+    </li>
 </ul>
+<hr style="border: 1px #FFFFFF solid; margin-top: 8px; margin-bottom: 8px">
+<div class="row" style="height: 100%">
+    <div class="col-md-3" style="background-color: #292B30; border-right: 1px #FFFFFF solid">
+        <div class="row" style="padding-left: 20px">
+            <h1 style="color: #ffffff">Servers</h1>
+        </div>
+        <div class="row">
+            <div class="container">
+                <ul>
+                    <%= for server <- servers do%>
+                    <li><a href="/servers/<%= server.id%>" style="color: #ffffff"><%= server.name %></a>
+                    </li>
+                    <% end %>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-9">
+
+    </div>
+</div>
+
+</body>
+</html>
