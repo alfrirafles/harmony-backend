@@ -22,12 +22,13 @@
         <form action="/servers/<%= server.id%>" method="POST" style="margin: 0 10px 20px 10px">
             <div class="row">
                 <div class="col-md-10">
-                    <input type="text" class="form-control" id="message" placeholder="Enter a message...">
+                    <input type="text" class="form-control" name="message" placeholder="Enter a message...">
                 </div>
                 <div class="col-md-2">
                     <button type="submit" class="btn btn-primary">Send</button>
                 </div>
             </div>
+            <input type="text" name="serverId" value="<%= server.id%>" hidden>
         </form>
     </div>
 </div>
