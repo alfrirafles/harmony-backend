@@ -1,5 +1,5 @@
 defmodule Harmony.Server do
-  defstruct [id: nil, name: "", description: "", region: ""]
+  defstruct [id: nil, name: "", description: "", region: "", join_link: ""]
 
   def asia_region(server) do
     server.region == "asia"
