@@ -2,6 +2,7 @@ defmodule Harmony.ServerController do
 
   alias Harmony.Region
   alias Harmony.Server
+  alias Harmony.Message
   alias Harmony.ServerView
   alias Harmony.Conversation
 
@@ -15,8 +16,10 @@ defmodule Harmony.ServerController do
   end
 
   def show(conversation, %{"id" => id}) do
+    messages = Server.get_messages(id)
+               |> Enum.sort(&Message.order_by_date_created/2)
     body = Region.get_server(id)
-           |> ServerView.show
+           |> ServerView.show(messages)
            |> Conversation.format(status: 200, content_type: @content_type, conversation: conversation)
   end
 
