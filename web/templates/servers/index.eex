@@ -13,9 +13,9 @@
            style="color: #ffffff; font-weight: bold; font-size: 28px;">Discord Clone Elixir/OTP</a>
     </li>
 </ul>
-<hr style="border: 1px #FFFFFF solid; margin-top: 8px; margin-bottom: 8px">
+<hr style="border: 2px #000000 solid; margin-top: 4px; margin-bottom: 0">
 <div class="row" style="height: 100%">
-    <div class="col-md-3" style="background-color: #292B30; border-right: 1px #FFFFFF solid">
+    <div class="col-md-3" style="background-color: #292B30; border-right: 2px #000000 solid">
         <div class="row" style="padding-left: 20px">
             <h1 style="color: #ffffff">Servers</h1>
         </div>

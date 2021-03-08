@@ -8,20 +8,21 @@
 </head>
 <body style="background-color: #292B30; height: 100%">
 <div class="row" style="height: 100%">
-    <div class="col-md-3" style="border-right: 2px #ffffff solid">
+    <div class="col-md-3" style="border-right: 2px #000000 solid">
         <h1 style="color: #ffffff; padding-left: 10px"><%= server.name %></h1>
         <p style="color: #FFFFFF; margin: 30% 15% 30% 15%; text-align: center">Channels are not implemented yet.</p>
     </div>
     <div class="col-md-9">
-        <h2 style="color: #ffffff; padding-top: 10px"><%= server.description %></h2>
-        <div class="container" style="max-width: 90%; min-height: 80%; overflow: scroll">
+        <h2 style="color: #ffffff; padding-top: 10px; border-bottom: 2px solid #000000"><%= server.description %></h2>
+        <div class="container overflow-auto" style="max-width: 95%; min-height: 80%; max-height: 60%">
+            <p style="color: #ffffff; margin-bottom: 0; font-size: 24px">Sender</p>
             <input class="form-control" type="text" placeholder="Readonly input here..." readonly
-                   style="margin-top: 4px; margin-bottom: 4px">
+                   style="margin-top: 4px; margin-bottom: 4px; background: transparent; border: 1px #FFFFFF solid; font-size: 18px">
         </div>
-
         <form action="/servers/<%= server.id%>" method="POST" style="margin: 0 10px 20px 10px">
             <div class="row">
                 <div class="col-md-10">
+
                     <input type="text" class="form-control" name="message" placeholder="Enter a message...">
                 </div>
                 <div class="col-md-2">
