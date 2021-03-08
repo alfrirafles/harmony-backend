@@ -60,6 +60,10 @@ defmodule Harmony.Handler do
     ServerController.create(conversation, params)
   end
 
+  def route(%Conversation{method: "POST", path: "/servers/" <> id, request_params: params} = conversation) do
+    MessageController.create(conversation, params)
+  end
+
   def route(%Conversation{method: "DELETE", path: "/servers/" <> id, response_body: ""} = conversation) do
     ServerController.delete(conversation, id)
   end
