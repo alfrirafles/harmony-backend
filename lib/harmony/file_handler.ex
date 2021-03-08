@@ -21,20 +21,39 @@ defmodule Harmony.FileHandler do
   end
 
   def read_csv(source_path) do
-    {:ok, file_content} = source_path
-                          |> File.read
-    [header_line | data_lines] = file_content
-                                 |> String.split("\r\n")
+    [header_line | data_lines] = source_path
+                                 |> read_from_file
     headers = header_line
               |> String.split(";")
-    Enum.reduce(data_lines, [], fn data, acc ->
+    Enum.reduce(
+      data_lines,
+      [],
+      fn data, acc ->
         combined_items = data
                          |> String.split(";")
                          |> Enum.zip(headers)
                          |> Enum.map(fn {k, v} -> %{String.to_atom(v) => k} end)
                          |> Enum.reduce(%{}, &Map.merge/2)
         acc = [combined_items | acc]
-      end)
+      end
+    )
+  end
+
+  def write_csv(source_path, addition) do
+    [header | data_lines] = source_path |> read_from_file
+    if Enum.count(data_lines) == 0 do
+      new_content = Enum.join([header, addition], "\r\n")
+      File.write(source_path, new_content)
+      else
+      new_content = [addition | data_lines] |> List.insert_at(0, header) |> Enum.join("\r\n")
+      File.write(source_path, new_content)
+    end
+  end
+
+  defp read_from_file(source_path) do
+    {:ok, file_content} = source_path
+                          |> File.read
+    file_content |> String.split("\r\n")
   end
 
 end
