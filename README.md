@@ -15,7 +15,7 @@ In the directory of this project:
 > list all the available chat server based on the data from the file `servers.csv` and display the data as html.
 
 ### localhost:4000/servers/id
-> id can be from 1..4, each id have different server.
+> id can be from 1..4, each id have different server. Returns a page where you can send a message to entities listening for messages in the server.
 
 ### localhost:4000/api/servers
 > returns list of all servers data as JSON for client side mobile application.
