@@ -14,10 +14,12 @@
     </div>
     <div class="col-md-9">
         <h2 style="color: #ffffff; padding-top: 10px; border-bottom: 2px solid #000000"><%= server.description %></h2>
-        <div class="container overflow-auto" style="max-width: 95%; min-height: 80%; max-height: 60%">
-            <p style="color: #ffffff; margin-bottom: 0; font-size: 24px">Sender</p>
-            <input class="form-control" type="text" placeholder="Readonly input here..." readonly
+        <div class="container overflow-auto" style="max-width: 95%; min-height: 30%; max-height: 50%">
+            <%= for message <- messages do %>
+            <p style="color: #ffffff; margin-bottom: 0; font-size: 24px"><%= message.sender %></p>
+            <input class="form-control" type="text" placeholder="<%= message.content %>" readonly
                    style="margin-top: 4px; margin-bottom: 4px; background: transparent; border: 1px #FFFFFF solid; font-size: 18px">
+            <% end %>
         </div>
         <form action="/servers/<%= server.id%>" method="POST" style="margin: 0 10px 20px 10px">
             <div class="row">
@@ -30,6 +32,7 @@
                 </div>
             </div>
             <input type="text" name="serverId" value="<%= server.id%>" hidden>
+            <input type="text" name="sender" value="fred " hidden>
         </form>
     </div>
 </div>
