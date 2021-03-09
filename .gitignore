@@ -28,4 +28,6 @@ harmony-*.tar
 # IDE specific files to avoid repo polution.
 .idea
 *.iml
+
+# Data source files that affects application state
 messages.csv
