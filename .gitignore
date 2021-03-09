@@ -28,3 +28,4 @@ harmony-*.tar
 # IDE specific files to avoid repo polution.
 .idea
 *.iml
+messages.csv
