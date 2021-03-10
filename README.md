@@ -5,8 +5,8 @@ The backend will serve responses to requests from web/mobile app client side to 
 
 ## Running server application
 In the directory of this project:
-- run `iex -S mix`
-- run the process `spawn(Harmony.HttpServer, :start, [4000])` where `4000` is the port number the server will be using. Alternatively choose your own preferred port. (Note: port has to be > 1023, as for most systems these ports are occupied.
+- with terminal, run `iex -S mix`
+- run the process in iex: `spawn(Harmony.HttpServer, :start, [4000])` where `4000` is the port number the server will be using. Alternatively choose your own preferred port. (Note: port has to be > 1023, as for most systems these ports are occupied.
 - access the server resources in the browser with the following address `localhost:4000/(slugs)` (or alternatively your preferred port number that you run the server on.
 
 ## Available (slugs):
